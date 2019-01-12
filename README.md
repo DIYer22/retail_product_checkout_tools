@@ -4,7 +4,7 @@ Project : [RPC Dataset Project Page](http://rpc-dataset.github.io)
 
 Dataset : [RPC Dataset](https://www.kaggle.com/diyer22/retail-product-checkout-dataset)
 
-## Install
+## 1. Install
 
 ```
 pip install rpctool
@@ -13,14 +13,13 @@ or
 ```
 pip install git+https://github.com/DIYer22/retail_product_checkout_tools
 ```
-## Usage
+## 2. Usage
 
 
 ```
 python -m rpctool {result json} {ground truth json}
 ```
-
-### help
+## 3. Help
 ```
 $ python -m rpctool -h
 
@@ -35,7 +34,7 @@ optional arguments:
   --mmap      Evaluate mAP50 and mmAP
 ```
 
-### example
+## 4. example
 
 Input:   
 ```
