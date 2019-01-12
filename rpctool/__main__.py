@@ -12,7 +12,7 @@ from .__init__ import get_skudf
 from .__init__ import evaluate
 
 import argparse
-parser = argparse.ArgumentParser(description="Evaluate resFile with annFile and return markdown")
+parser = argparse.ArgumentParser(description="Evaluate resFile with annFile and return evaluation result in markdown format")
 if config.debug:
     parser.add_argument(
         "--resFile",
@@ -36,7 +36,7 @@ else:
     parser.add_argument(
         "annFile",
         metavar="FILE",
-        help="path to ground truth json(support bbox and chech out list)",
+        help="path to RPC ground truth json",
     )
 parser.add_argument(
     "--mmap",

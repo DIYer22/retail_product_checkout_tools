@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 '''
 Tools for Retail-Product-Checkout-Dataset(RPC)
 '''
-__version__ = "0.1.1"
+__version__ = "0.1.2"
 __short_description__ = "Tools for Retail-Product-Checkout-Dataset(RPC)"
 __author__ = "DIYer22, Cui Quan, "
 __author_email__ = "ylxx@live.com"
