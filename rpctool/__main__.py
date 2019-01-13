@@ -39,6 +39,12 @@ else:
         help="path to RPC ground truth json",
     )
 parser.add_argument(
+    "--method",
+    default="default",
+    type=str,
+    help="Method name",
+)
+parser.add_argument(
     "--mmap",
     action='store_true',
     help="Evaluate mAP50 and mmAP",
@@ -60,8 +66,8 @@ if __name__ == '__main__':
     resJs = boxx.loadjson(args.resFile)
     annJs = boxx.loadjson(args.annFile)
     skudf = get_skudf(annJs)
-    md = evaluate(resJs, annJs, mmap=args.mmap)
-    print("## result on RPC-Dataset")
-    print(md)
+    md = evaluate(resJs, annJs, mmap=args.mmap, method=args.method)
     print('''\nYou could submit this markdown resoult to RPC-Leaderboard by new a issue here: 
         https://github.com/RPC-Dataset/RPC-Leaderboard/issues''')
+    print("\n## result on RPC-Dataset")
+    print(md)

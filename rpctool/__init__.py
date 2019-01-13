@@ -5,7 +5,7 @@ from __future__ import unicode_literals
 '''
 Tools for Retail-Product-Checkout-Dataset(RPC)
 '''
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 __short_description__ = "Tools for Retail-Product-Checkout-Dataset(RPC)"
 __author__ = "DIYer22, Cui Quan, "
 __author_email__ = "ylxx@live.com"
@@ -29,7 +29,7 @@ def get_catdf(annJs, cn=config.debug):
         
     return catdf
     
-#def evaluate(resJs, annJs, mmap=False, cn=config.debug):
+#def evaluate(resJs, annJs, mmap=False, method="default", cn=config.debug):
 #    pass
 
 def evaluate_v1_interface(resJs, annJs, mmap=False, cn=config.debug, method="default", log=True):
