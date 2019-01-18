@@ -32,20 +32,27 @@ def get_catdf(annJs, cn=config.debug):
 #def evaluate(resJs, annJs, mmap=False, method="default", cn=config.debug):
 #    pass
 
-def evaluate_v1_interface(resJs, annJs, mmap=False, cn=config.debug, method="default", log=True):
+def evaluate_v1_interface(resJs, annJs, mmap=False, cn=config.debug, method="default", log=True, levels=None):
+    if levels is None:
+        levels = ['easy', 'medium', 'hard', 'averaged']
     from .evaluate_v1 import evaluateByBbox as v1
     v1.getMmap = mmap
-    from boxx import pathjoin, tmpboxx, savejson
-    resJsp = pathjoin(tmpboxx(), "rpc_res.json")
-    annJsp = pathjoin(tmpboxx(), "rpc_ann.json")
+    from boxx import pathjoin, tmpboxx, savejson, localTimeStr, os
+    ti = localTimeStr().replace(":", '_')
+    jspTail = "%s-%s.json"%(method, ti)
+    resJsp = pathjoin(tmpboxx(), "rpc_res-%s"%jspTail)
+    annJsp = pathjoin(tmpboxx(), "rpc_ann-%s"%jspTail)
     savejson(resJs, resJsp)
     savejson(annJs, annJsp)
-    resTable = v1.evaluateByJsp(resJsp, annJsp, method=method, log=log)
-    df = pd.DataFrame([resTable[diff] for diff in ['easy', 'medium', 'hard', 'averaged']])
+    resTable = v1.evaluateByJsp(resJsp, annJsp, method=method, log=log, levels=levels)
+    df = pd.DataFrame([resTable[level] for level in levels])
     
     column_names = [col for col in config.column_names if col in df]
     from boxx import Markdown
     md = Markdown(df[column_names])
+    os.remove(resJsp)
+    os.remove(annJsp)
+    os.rename(pathjoin(tmpboxx(), "resTable.json"), pathjoin(tmpboxx(), jspTail))
     return md
 
 evaluate = evaluate_v1_interface

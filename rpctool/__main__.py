@@ -50,6 +50,13 @@ parser.add_argument(
     help="Evaluate mAP50 and mmAP",
 )
 parser.add_argument(
+    "--levels",
+    metavar="list",
+    default=None,
+    type=lambda s: s and s.replace(" ",'').split(','),
+    help='Which different levels, default is "easy,medium,hard,averaged"',
+)
+parser.add_argument(
     "--vis",
     action='store_true',
     help="visualization after evaluate",
@@ -66,8 +73,8 @@ if __name__ == '__main__':
     resJs = boxx.loadjson(args.resFile)
     annJs = boxx.loadjson(args.annFile)
     skudf = get_skudf(annJs)
-    md = evaluate(resJs, annJs, mmap=args.mmap, method=args.method)
+    md = evaluate(resJs, annJs, mmap=args.mmap, method=args.method, levels=args.levels)
     print('''\nYou could submit this markdown resoult to RPC-Leaderboard by new a issue here: 
         https://github.com/RPC-Dataset/RPC-Leaderboard/issues''')
-    print("\n## result on RPC-Dataset")
+    print("\n## %s result on RPC-Dataset" % args.method)
     print(md)

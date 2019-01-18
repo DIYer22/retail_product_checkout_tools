@@ -10,7 +10,7 @@ from boxx import dicto
 config = dicto({
     "debug": False,
     "ROUND_NUM": 2,
-    "column_names": ['diff', 'method', 'cAcc', 'mCIoU', 'ACD', 'mCCD', 'mAP50', 'mmAP']
+    "column_names": ['level', 'method', 'cAcc', 'mCIoU', 'ACD', 'mCCD', 'mAP50', 'mmAP']
 })
 
 

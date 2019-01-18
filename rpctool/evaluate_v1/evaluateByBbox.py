@@ -11,7 +11,7 @@ from boxx import cloud, addPathToSys, loadjson, reduce, add, findints, winYl, g
 
     
 from boxx import dirname, np, pd, basename, map2, p, glob, ignoreWarning, x_, tree, defaultdict
-from boxx import saveData, savejson
+from boxx import saveData, savejson, pathjoin
 from copy import deepcopy
 
 ignoreWarning()
@@ -90,7 +90,7 @@ def evaluateByJson(resJs, gtJs, log=False):
         row.update(mapd)
     return row
 
-def evaluateByJsp(resJsp, gtJsp, log=True, method=None, ):
+def evaluateByJsp(resJsp, gtJsp, log=True, method=None, levels=['averaged', 'easy', 'medium', 'hard']):
     if method is None:
         method = basename(dirname(dirname(dirname(resJsp))))
 #        method=basename(dirname(resJsp))
@@ -100,24 +100,25 @@ def evaluateByJsp(resJsp, gtJsp, log=True, method=None, ):
     resJs = loadjson(resJsp)
     gtJs = loadjson(gtJsp)
     
-    diff='averaged'
-    row = evaluateByJson(resJs, gtJs, )
-    
-    row['method'] = method
-    row['diff'] = diff
-    resTable[diff] = dict(row)
-    tree-row
-    for diff in diffs:
+    if 'averaged' in levels:
+        level='averaged'
+        row = evaluateByJson(resJs, gtJs, )
+        
+        row['method'] = method
+        row['level'] = level
+        resTable[level] = dict(row)
+        tree-row
+    for level in filter(lambda x: x in levels, ['easy', 'medium', 'hard']):
         coco = loadjson(gtJsp)
-        coco['images'] = [d for d in coco['images'] if d['level']==diff]
+        coco['images'] = [d for d in coco['images'] if d['level']==level]
         imgIds = [d['id'] for d in coco['images']]
         coco['annotations'] = [bb for bb in coco['annotations'] if bb['image_id'] in imgIds]
         resJs = loadjson(resJsp)
         row = evaluateByJson(resJs, coco,)
         
         row['method'] = method
-        row['diff'] = diff
-        resTable[diff] = dict(row)
+        row['level'] = level
+        resTable[level] = dict(row)
         tree-row
         
     resdir = dirname(resJsp)
