@@ -26,7 +26,7 @@ parser.add_argument(
 
 def cover2rpc(sourceFile, targetFile):
     
-    from boxx import openwrite, openread, df2dicts
+    from boxx import openwrite, openread, df2dicts, zip2
     sjs = boxx.loadjson(sourceFile)
     tjs = boxx.loadjson(targetFile)
     
@@ -41,11 +41,14 @@ def cover2rpc(sourceFile, targetFile):
     imgdf['class_num'] = imgdf.id.apply(lambda i:imgid2len.loc[i][1])
     imgdf = imgdf.sort_values(['instance_num'])
     n = len(imgdf)
-    imgdf['level'] = ''
-    imgdf.iloc[:n//3].level = 'easy'
-    imgdf.iloc[n//3:n*2//3].level = 'medium'
-    imgdf.iloc[n*2//3:].level = 'hard'
-    assert imgdf.iloc[-1].level == 'hard'
+    
+    indexDic = dict(zip2(range(n//3), ['easy']*n)+zip2(range(n//3, 2*n//3), ['medium']*n)+zip2(range(2*n//3, n), ['hard']*n))
+    imgdf['level'] = imgdf.id.apply(lambda i:indexDic[i])
+    
+#    imgdf.iloc[:n//3].level = 'easy'
+#    imgdf.iloc[n//3:n*2//3].level = 'medium'
+#    imgdf.iloc[n*2//3:].level = 'hard'
+    assert imgdf.iloc[-1].level == 'hard', imgdf.iloc[-1]
     
     imgdf.pop('instance_num')
     imgdf.pop('class_num')
