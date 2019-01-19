@@ -40,6 +40,7 @@ else:
     )
 parser.add_argument(
     "--method",
+    metavar="STR",
     default="default",
     type=str,
     help="Method name",
@@ -51,7 +52,7 @@ parser.add_argument(
 )
 parser.add_argument(
     "--levels",
-    metavar="list",
+    metavar="LIST",
     default=None,
     type=lambda s: s and s.replace(" ",'').split(','),
     help='Which different levels, default is "easy,medium,hard,averaged"',
