@@ -57,6 +57,6 @@ def cover2rpc(sourceFile, targetFile):
     tjs['annotations'] = sjs["annotations"]
     return boxx.savejson(tjs, sourceFile)
 
-if __name__ == '__main__0':
+if __name__ == '__main__':
     args = parser.parse_args()
     cover2rpc(args.sourceFile, args.targetFile)
