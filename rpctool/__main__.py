@@ -75,7 +75,7 @@ if __name__ == '__main__':
     annJs = boxx.loadjson(args.annFile)
     skudf = get_skudf(annJs)
     md = evaluate(resJs, annJs, mmap=args.mmap, method=args.method, levels=args.levels)
-    print('''\nYou could submit this markdown resoult to RPC-Leaderboard by new a issue here: 
+    print('''\nYou could submit this markdown result to RPC-Leaderboard by new a issue here: 
         https://github.com/RPC-Dataset/RPC-Leaderboard/issues''')
     print("\n## %s result on RPC-Dataset" % args.method)
     print(md)
