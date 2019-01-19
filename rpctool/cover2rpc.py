@@ -42,9 +42,9 @@ def cover2rpc(sourceFile, targetFile):
     imgdf = imgdf.sort_values(['instance_num'])
     n = len(imgdf)
     
-    indexDic = dict(zip2(range(n//3), ['easy']*n)+zip2(range(n//3, 2*n//3), ['medium']*n)+zip2(range(2*n//3, n), ['hard']*n))
+    indDic = dict(zip2(range(n//3), ['easy']*n)+zip2(range(n//3, 2*n//3), ['medium']*n)+zip2(range(2*n//3, n), ['hard']*n))
+    indexDic = {row.id:indDic[i] for i,row in imgdf.iterrows()}
     imgdf['level'] = imgdf.id.apply(lambda i:indexDic[i])
-    
 #    imgdf.iloc[:n//3].level = 'easy'
 #    imgdf.iloc[n//3:n*2//3].level = 'medium'
 #    imgdf.iloc[n*2//3:].level = 'hard'
@@ -57,6 +57,6 @@ def cover2rpc(sourceFile, targetFile):
     tjs['annotations'] = sjs["annotations"]
     return boxx.savejson(tjs, sourceFile)
 
-if __name__ == '__main__':
+if __name__ == '__main__0':
     args = parser.parse_args()
     cover2rpc(args.sourceFile, args.targetFile)
