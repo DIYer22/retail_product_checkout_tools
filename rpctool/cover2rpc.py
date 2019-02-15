@@ -22,42 +22,49 @@ parser.add_argument(
     metavar="FILE",
     help="path to RPC ground truth json",
 )
+parser.add_argument(
+    "--reLevel",
+    action='store_true',
+    help="redistribution difficulty clutters",
+)
 
 
-def cover2rpc(sourceFile, targetFile):
+def cover2rpc(sourceFile, targetFile, reLevel=False):
     
     from boxx import openwrite, openread, df2dicts, zip2
     sjs = boxx.loadjson(sourceFile)
     tjs = boxx.loadjson(targetFile)
     
     openwrite(openread(sourceFile), sourceFile+'.before.cover2rpc.bak')
-    
-    imgdf = pd.DataFrame(sjs["images"])
-    anndf = pd.DataFrame(sjs["annotations"])
-    
-    imgid2len = anndf.groupby('image_id').apply(lambda sdf:[len(sdf), len(set(sdf.category_id)), ])
-    
-    imgdf['instance_num'] = imgdf.id.apply(lambda i:imgid2len.loc[i][0])
-    imgdf['class_num'] = imgdf.id.apply(lambda i:imgid2len.loc[i][1])
-    imgdf = imgdf.sort_values(['instance_num'])
-    n = len(imgdf)
-    
-    indexDic = dict(zip2(range(n//3), ['easy']*n)+zip2(range(n//3, 2*n//3), ['medium']*n)+zip2(range(2*n//3, n), ['hard']*n))
-    imgdf['_ind'] = range(n)
-    imgdf['level'] = imgdf._ind.apply(lambda i:indexDic[i])
-    imgdf.pop('_ind')
-#    imgdf.iloc[:n//3].level = 'easy'
-#    imgdf.iloc[n//3:n*2//3].level = 'medium'
-#    imgdf.iloc[n*2//3:].level = 'hard'
-    assert all(imgdf.iloc[n*2//3:].level == 'hard'), imgdf.iloc[-1]
-    
-    imgdf.pop('instance_num')
-    imgdf.pop('class_num')
-    dicts = df2dicts(imgdf)
-    tjs['images'] = dicts
+    if reLevel:
+        imgdf = pd.DataFrame(sjs["images"])
+        anndf = pd.DataFrame(sjs["annotations"])
+        
+        imgid2len = anndf.groupby('image_id').apply(lambda sdf:[len(sdf), len(set(sdf.category_id)), ])
+        
+        imgdf['instance_num'] = imgdf.id.apply(lambda i:imgid2len.loc[i][0])
+        imgdf['class_num'] = imgdf.id.apply(lambda i:imgid2len.loc[i][1])
+        imgdf = imgdf.sort_values(['instance_num'])
+        n = len(imgdf)
+        
+        indexDic = dict(zip2(range(n//3), ['easy']*n)+zip2(range(n//3, 2*n//3), ['medium']*n)+zip2(range(2*n//3, n), ['hard']*n))
+        imgdf['_ind'] = range(n)
+        imgdf['level'] = imgdf._ind.apply(lambda i:indexDic[i])
+        imgdf.pop('_ind')
+    #    imgdf.iloc[:n//3].level = 'easy'
+    #    imgdf.iloc[n//3:n*2//3].level = 'medium'
+    #    imgdf.iloc[n*2//3:].level = 'hard'
+        assert all(imgdf.iloc[n*2//3:].level == 'hard'), imgdf.iloc[-1]
+        
+        imgdf.pop('instance_num')
+        imgdf.pop('class_num')
+        dicts = df2dicts(imgdf)
+        tjs['images'] = dicts
+    else :
+        tjs['images'] = sjs["images"]
     tjs['annotations'] = sjs["annotations"]
     return boxx.savejson(tjs, sourceFile)
 if __name__ == '__main__':
 #    cover2rpc("/home/dl/junk/val.json", "/home/dl/junk/instances_val2017.json")
     args = parser.parse_args()
-    cover2rpc(args.sourceFile, args.targetFile)
+    cover2rpc(args.sourceFile, args.targetFile, args.reLevel)
