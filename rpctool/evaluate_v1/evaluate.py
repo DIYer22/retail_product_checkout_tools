@@ -9,7 +9,7 @@ import numpy as np
 from collections import defaultdict
 from boxx import *
 
-K = 200
+
 def calculate(predictions, labels, log=True):
     # Inputs Example:
     # predictions = {'file1':[0,0,1], 'file2':[0,0,2], 'file3':[1,1,2], 'file4':[2,3,3]}
@@ -30,7 +30,7 @@ def calculate(predictions, labels, log=True):
         print('Score1 is {:.4f}, Score2 is {:.4f}, Score3 is {:.4f}, Score4 is {:.4f}, Score5 is {:.4f}'.format(score_1, score_2, score_3, score_4, score_5))
     return dict(cAcc=score_1, ACD=score_2, score_3=score_3, mCCD=score_4, mCIoU=score_5)
 
-def evaluate(pred_counts, gt_counts, log=True):
+def evaluate(pred_counts, gt_counts, log=True, K=200):
     predictions = defaultdict(lambda :[0]*K)
     labels = defaultdict(lambda :[0]*K)
     for k,vs in pred_counts.items():

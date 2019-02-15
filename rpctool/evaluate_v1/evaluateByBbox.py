@@ -15,7 +15,6 @@ from boxx import saveData, savejson, pathjoin
 from copy import deepcopy
 
 ignoreWarning()
-K = 200
 debug = False
 #debug = True
 getMmap = True
@@ -53,6 +52,7 @@ def getGtCounts(gtJs):
 
 def evaluateByJson(resJs, gtJs, log=False):
     gtJs = deepcopy(gtJs)
+    K = len(gtJs['categories'])
     gt_counts, imgKv = getGtCounts(gtJs)
     resJs = [d for d in resJs if d['image_id'] in imgKv]
     def evaluateByThrehold(threhold):
@@ -64,7 +64,7 @@ def evaluateByJson(resJs, gtJs, log=False):
             imgd['countRes'] = imgd.get('countRes', []) + [resd['category_id']-1]
         
         pred_counts = {imgd['file_name']:imgd.get('countRes', []) for imgd in imgKv.values()}
-        scores = evaluate(pred_counts, gt_counts, log=False)
+        scores = evaluate(pred_counts, gt_counts, log=False, K=K)
         scores['thre'] = threhold
         return scores
     
