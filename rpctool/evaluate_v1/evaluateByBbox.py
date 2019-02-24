@@ -136,7 +136,7 @@ if winYl:
     junkDir = 'c:/D/junk'
 
 
-resJsps = sorted(sum(map(lambda key:glob(pathjoin(junkDir, f'output/{key}/inference/coco_format_val/bbox.json')), globKeys), []))
+resJsps = sorted(sum(map(lambda key:glob(pathjoin(junkDir, 'output/{key}/inference/coco_format_val/bbox.json')), globKeys), []))
 if __name__ == "__main__":
 
     from  printAnd2latex import exportResultMd
