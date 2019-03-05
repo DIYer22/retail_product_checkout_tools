@@ -24,14 +24,13 @@ if config.debug:
         "--annFile",
         default="/home/dl/dataset/retail_product_checkout/rpc.tiny/instances_test2017.json",
         metavar="FILE",
-        help="path to ground truth json(support bbox and chech out list)",
     )
     
 else:
     parser.add_argument(
         "resFile",
         metavar="FILE",
-        help="path to result json(support bbox and check out list)",
+        help="path to result json(support bbox format)",
     )
     parser.add_argument(
         "annFile",

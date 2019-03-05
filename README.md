@@ -26,7 +26,7 @@ $ python -m rpctool -h
 Evaluate resFile with annFile and return evaluation result in markdown format
 
 positional arguments:
-  FILE        path to result json(support bbox and check out list)
+  FILE        path to result json(support bbox format)
   FILE        path to ground truth json
 
 optional arguments:
@@ -34,7 +34,7 @@ optional arguments:
   --mmap      Evaluate mAP50 and mmAP
 ```
 
-## 4. example
+## 4. Example
 
 Input:   
 ```
@@ -51,4 +51,18 @@ Return:
 |     hard | default | 31.01% | 90.41% | 1.77 |  0.1 |
 | averaged | default |  45.6% | 90.58% | 1.25 |  0.1 |
 ```
+
+## 5. Result Format
+
+
+Result format (i.e `bbox_results.json`) should has the same data structure as the data struecture of [COCO Object Detection Result Format](http://cocodataset.org/#format-results) :
+```
+[{
+    "image_id"    : int, 
+    "category_id" : int, 
+    "bbox"        : [x,y,width,height], 
+    "score"       : float,
+}]
+```
+
 
