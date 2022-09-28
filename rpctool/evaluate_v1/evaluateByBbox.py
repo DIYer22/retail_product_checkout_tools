@@ -10,7 +10,7 @@ from boxx import *
 from boxx import cloud, addPathToSys, loadjson, reduce, add, findints, winYl, g
 
     
-from boxx import dirname, np, pd, basename, map2, p, glob, ignoreWarning, x_, tree, defaultdict
+from boxx import dirname, np, pd, basename, map2, p, glob, ignoreWarning, tree, defaultdict
 from boxx import saveData, savejson, pathjoin
 from copy import deepcopy
 
@@ -150,7 +150,7 @@ if __name__ == "__main__":
 #import matplotlib.pyplot as plt
 #for s in scoress.T:
 #    plt.plot(xs, s)
-#    plt.show()   loga(ll-imgdf[imgdf.wh.apply(x_[0])<1750].wh)
+#    plt.show()   loga(ll-imgdf[imgdf.wh.apply(lambda x:x[0])<1750].wh)
 '''no_gan threhold=0.6473684210526316
 Score1 is 0.1725, Score2 is 2.7268, Score3 is 0.3765, Score4 is 0.3973'''
     

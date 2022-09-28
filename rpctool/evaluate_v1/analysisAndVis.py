@@ -10,7 +10,7 @@ Created on Mon Nov 12 11:53:41 2018
 #from config import skuDf
 from boxx import *
 from boxx import loadjson, pd, Counter, p
-from boxx import reduce, add, ll, tree, x_, os, pathjoin
+from boxx import reduce, add, ll, tree, os, pathjoin
 
 skuDf = pd.read_csv(os.path.abspath(pathjoin(__file__, '../../sku_info_generated.csv')))
 
@@ -108,7 +108,7 @@ if __name__ == "__main__":
     
     clasCd = reduce(add, wrongsetdf)
     
-    badClas = sorted(clasCd.items(), key=x_[1])
+    badClas = sorted(clasCd.items(), key=lambda x: x[1])
     badClas = [(skuDf.loc[l[0]-1]['name'], l[1]) for l in badClas]
     tree - badClas
     pass
